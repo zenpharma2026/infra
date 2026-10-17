@@ -33,7 +33,7 @@ permissions:
 
 env:
   TF_VERSION: '1.15.6'
-  AWS_REGION: us-east-1
+  AWS_REGION: ap-southeast-2
 
 # Prevent parallel runs on the same branch — avoids state conflicts
 concurrency:
@@ -81,9 +81,6 @@ jobs:
         id: plan
         run: |
           terraform plan \
-            -var="db_password=${{ secrets.DEV_DB_PASSWORD }}" \
-            -var="jwt_secret=${{ secrets.DEV_JWT_SECRET }}" \
-            -var="github_org=${{ vars.GH_ORG }}" \
             -out=tfplan \
             -no-color
         continue-on-error: true
@@ -188,9 +185,6 @@ jobs:
       - name: Terraform Destroy
         run: |
           terraform destroy \
-            -var="db_password=${{ secrets.DEV_DB_PASSWORD }}" \
-            -var="jwt_secret=${{ secrets.DEV_JWT_SECRET }}" \
-            -var="github_org=${{ vars.GH_ORG }}" \
             -auto-approve \
             -no-color
 
